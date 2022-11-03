@@ -16,7 +16,18 @@ const signer = new ethers.Wallet(PRIVATE_KEY, alchemyProvider);
 const helloWorldContract = new ethers.Contract(CONTRACT_ADDRESS, contract.abi, signer);
 
 async function main() {
-    // place new message you want to put in the update here
+	// place new message you want to put in the update here
+
+	const message = await helloWorldContract.message();
+	console.log(`This message says ${message}`);
+
+    console.log("Updating the message...");
+    tx = await helloWorldContract.update('this is the new message');
+    await tx.wait();
+
+    const newMessage = await helloWorldContract.message();
+	console.log(`This new message says ${newMessage}`);
+
 }
 
 main()
